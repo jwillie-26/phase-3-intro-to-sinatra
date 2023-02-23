@@ -1,11 +1,20 @@
-require 'sinatra'
+require "rack"
+require "pry"
 
-class App < Sinatra::Base
+class App
+  def call(env)
+    path = env["PATH_INFO"]
 
-  get '/hello' do
-    '<h2>Hello <em>World</em>!</h2>'
+    if path == "/"
+      [200, { "Content-Type" => "text/html" }, ["<h2>Hello World </h2>  "]]
+    elsif path == "/potato"
+      [200, { "Content-Type" => "text/html" }, ["<h2>potato </h2> "]]
+    else
+      [404, { "Content-Type" => "text/html" }, ["<h2>404 </h2> "]]
+
+      [200, { "Content-Type" => "text/html" }, ["<h2>Hello World</h2>"]]
+    end
   end
-  
 end
 
-run App
+run App.new
